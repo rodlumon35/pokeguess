@@ -17,10 +17,6 @@ class Game {
     this.activePlayers = this.players.length;
   }
 
-  getToken() {
-    return this.token;
-  }
-
   getNumPlayers() {
     return this.players;
   }
