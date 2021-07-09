@@ -1,3 +1,13 @@
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const GameSchema = new Schema({
+  activePlayers: Number,
+  playerList: Array,
+  players: Number,
+  token: Number,
+});
+const GameDbConnection = mongoose.model("GameSchema", GameSchema);
+
 class Game {
   activePlayers = 0;
   playerList = [];
@@ -10,7 +20,7 @@ class Game {
 
   joinPlayerInGame(playerUsername) {
     this.playerList.push(playerUsername);
-    this.setActivePlayers()
+    this.setActivePlayers();
   }
 
   setActivePlayers() {
@@ -26,4 +36,7 @@ class Game {
   }
 }
 
-module.exports = Game;
+module.exports = {
+  Game,
+  GameDbConnection
+};
