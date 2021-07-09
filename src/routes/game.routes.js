@@ -10,6 +10,7 @@ router.post("/new-game", async (req, res) => {
     playerList: game.playerList,
     players: game.players,
     token: game.token,
+    drawTimeDuration: game.drawTimeDuration,
   });
 
   await gameDb.save();

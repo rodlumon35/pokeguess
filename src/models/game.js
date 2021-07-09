@@ -5,6 +5,7 @@ const GameSchema = new Schema({
   playerList: Array,
   players: Number,
   token: Number,
+  drawTimeDuration: Number,
 });
 const GameDbConnection = mongoose.model("GameSchema", GameSchema);
 
