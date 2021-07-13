@@ -18,7 +18,7 @@ router.post("/new-game", async (req, res) => {
   await gameDb.save();
   res.json({
     status: "success",
-    data: game,
+    data: game.token,
   });
 });
 
@@ -40,14 +40,12 @@ router.put("/join-game/:token", async (req, res) => {
 
 router.delete("/:token", async (req, res) => {
   const game = await GameDbConnection.findOne({ token: req.params.token });
-  let message = "game was deleted";
 
   if (game) {
     await GameDbConnection.findByIdAndRemove(game._id);
-    res.json({ status: "success", data: { message: message } });
+    res.json({ status: "success", data: { message: "Game was deleted" } });
   } else {
-    message = "Game not found";
-    res.json({ status: "error", data: { message: message } });
+    res.json({ status: "error", data: { message: "Game not found" } });
   }
 });
 
@@ -57,7 +55,10 @@ router.put("/init-game/:token", async (req, res) => {
   if (game.activePlayers === game.players) {
     res.json({ status: "success", data: { game } });
   } else {
-    res.json({ status: "error", message: "Some Players are still missing" });
+    res.json({
+      status: "error",
+      data: { message: "Some players are still missing" },
+    });
   }
 });
 
