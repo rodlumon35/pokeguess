@@ -14,12 +14,11 @@ router.post("/new-game", async (req, res) => {
     token: game.token,
     drawTimeDuration: game.drawTimeDuration,
   });
-  console.log(gameDb);
 
   await gameDb.save();
   res.json({
     status: "success",
-    data: game,
+    data: game.token,
   });
 });
 
@@ -34,26 +33,33 @@ router.put("/join-game/:token", async (req, res) => {
 
   game.save();
   res.json({
-    status: 200,
+    status: "success",
     data: game,
   });
 });
 
 router.delete("/:token", async (req, res) => {
   const game = await GameDbConnection.findOne({ token: req.params.token });
-  let message = "game was deleted";
 
   if (game) {
     await GameDbConnection.findByIdAndRemove(game._id);
-    res.json({ status: 200, data: { message: message } });
+    res.json({ status: "success", data: { message: "Game was deleted" } });
   } else {
-    message = "Game not found";
-    res.json({ status: 404, data: { message: message } });
+    res.json({ status: "error", data: { message: "Game not found" } });
   }
 });
 
-router.put('/init-game/:token', (req, res) => {
-  
-})
+router.put("/init-game/:token", async (req, res) => {
+  const game = await GameDbConnection.findOne({ token: req.params.token });
+
+  if (game.activePlayers === game.players) {
+    res.json({ status: "success", data: { game } });
+  } else {
+    res.json({
+      status: "error",
+      data: { message: "Some players are still missing" },
+    });
+  }
+});
 
 module.exports = router;

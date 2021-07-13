@@ -23,7 +23,7 @@ class Game {
     return (Math.floor(Math.random() * 9999) + 1).toString().padStart(4, 0);
   }
 
-  static getRoles(players) {
+  static setRoles(players) {
     let index = Math.floor(Math.random() * players.length);
     players[index].role = "speaker";
 
