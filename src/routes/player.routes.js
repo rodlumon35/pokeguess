@@ -20,7 +20,7 @@ router.post("/create", async (req, res) => {
     await playerDb.save();
     res.json({
       status: "success",
-      data: user.token,
+      data: user,
     });
   } else {
     res.json({
@@ -40,11 +40,11 @@ router.delete("/:username", async (req, res) => {
     username: req.params.username,
   });
 
-  if (player) {
+  if (player && player.token === req.body.token) {
     await PlayerDbConnection.findByIdAndRemove(player._id);
     res.json({ status: "success", data: { message: "Player was deleted" } });
   } else {
-    res.json({ status: "error", data: { message: "Player not found" } });
+    res.json({ status: "error", data: { message: "Player not valid" } });
   }
 });
 
